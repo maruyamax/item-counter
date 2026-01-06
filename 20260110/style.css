@@ -1,5 +1,6 @@
 :root {
   --txt-main: #333;
+  --txt-sub: #767676;
   --bg-medium: #eee;
   --bg-light: #f5f5f5;
   --bdr-medium: #ddd;
@@ -22,7 +23,10 @@ body {
 body {
   touch-action: manipulation;
   color: var(--txt-main);
-  font-family: sans-serif;
+  body {
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
+      "Hiragino Sans", sans-serif;
+  }
 }
 
 #app {
@@ -158,12 +162,20 @@ body {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   padding-top: 8px;
+  padding-right: 16px;
+  font-weight: bold;
 }
 
 .product-stats {
+  display: flex;
+  column-gap: 8px;
+  justify-content: space-between;
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   padding-bottom: 8px;
+  padding-right: 16px;
+  color: var(--txt-sub);
+  font-size: 14px;
 }
 
 .counter {
