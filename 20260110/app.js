@@ -73,16 +73,22 @@ function masked(value) {
 
 function increment(product) {
   if (remainingStock(product) <= 0) return;
+
   currentShopState().sold[product.id] = soldCount(product.id) + 1;
   saveState();
-  render();
+
+  updateProduct(product);
+  updateRevenue();
 }
 
 function decrement(product) {
   if (soldCount(product.id) <= 0) return;
+
   currentShopState().sold[product.id]--;
   saveState();
-  render();
+
+  updateProduct(product);
+  updateRevenue();
 }
 
 function revenueByShop(shopId) {
@@ -96,6 +102,54 @@ function revenueByShop(shopId) {
 
 function totalRevenue() {
   return SHOPS.reduce((sum, s) => sum + revenueByShop(s.id), 0);
+}
+
+/* =====================
+   Partial Updates
+===================== */
+
+function updateProduct(product) {
+  const el = document.querySelector(
+    `.product[data-product-id="${product.id}"]`
+  );
+  if (!el) return;
+
+  const sold = soldCount(product.id);
+  const remaining = remainingStock(product);
+  const soldOut = remaining === 0;
+
+  el.querySelector(".stat-sold").textContent = `売:${sold}`;
+  el.querySelector(".stat-remaining").textContent = `在庫:${remaining}`;
+
+  el.classList.toggle("product--soldout", soldOut);
+
+  const plus = el.querySelector(".plus");
+  const minus = el.querySelector(".minus");
+
+  plus.disabled = soldOut;
+  minus.disabled = sold === 0;
+
+  const label = el.querySelector(".soldout-label");
+  if (soldOut && !label) {
+    el.querySelector(".counter").insertAdjacentHTML(
+      "beforeend",
+      `<span class="soldout-label">売り切れ</span>`
+    );
+  }
+  if (!soldOut && label) label.remove();
+}
+
+function updateRevenue() {
+  document.querySelectorAll(".revenue-item").forEach((el) => {
+    const shopId = el.dataset.shopId;
+    const name = el.dataset.shopName;
+    el.textContent = `${name}: ${masked(revenueByShop(shopId))}`;
+  });
+
+  const total = document.querySelector(".revenue-total");
+  if (total) {
+    total.textContent = `合計: ${masked(totalRevenue())}`;
+  }
 }
 
 /* =====================
@@ -132,7 +186,7 @@ function exportJSON() {
 }
 
 /* =====================
-   Render
+   Render (initial / shop switch)
 ===================== */
 
 function render() {
@@ -167,21 +221,26 @@ function render() {
   toggleRevenue.className = `toggle-revenue ${
     state.showRevenue ? "is-visible" : "is-masked"
   }`;
-  toggleRevenue.textContent = `売上 ${state.showRevenue ? "非表示" : "表示"}`;
+  // toggleRevenue.textContent = `売上 ${state.showRevenue ? "非表示" : "表示"}`;
+  toggleRevenue.textContent = `売上`;
   toggleRevenue.onclick = () => {
     state.showRevenue = !state.showRevenue;
     saveState();
-    render();
+    updateRevenue();
+    toggleRevenue.className = `toggle-revenue ${
+      state.showRevenue ? "is-visible" : "is-masked"
+    }`;
+    // toggleRevenue.textContent = `売上 ${state.showRevenue ? "非表示" : "表示"}`;
+    toggleRevenue.textContent = `売上`;
   };
 
   const backupBtn = document.createElement("button");
   backupBtn.className = "backup-button";
-  backupBtn.textContent = ""; // jsonバックアップ
   backupBtn.onclick = exportJSON;
 
   controls.append(toggleRevenue, backupBtn);
 
-  /* ===== Revenue (always rendered) ===== */
+  /* ===== Revenue ===== */
   const revenue = document.createElement("div");
   revenue.className = `revenue ${
     state.showRevenue ? "is-visible" : "is-masked"
@@ -190,6 +249,8 @@ function render() {
   SHOPS.forEach((s) => {
     const item = document.createElement("div");
     item.className = "revenue-item";
+    item.dataset.shopId = s.id;
+    item.dataset.shopName = s.name;
     item.textContent = `${s.name}: ${masked(revenueByShop(s.id))}`;
     revenue.appendChild(item);
   });
@@ -197,10 +258,9 @@ function render() {
   const total = document.createElement("div");
   total.className = "revenue-total";
   total.textContent = `合計: ${masked(totalRevenue())}`;
-
   revenue.appendChild(total);
-  controls.appendChild(revenue);
 
+  controls.appendChild(revenue);
   root.appendChild(controls);
 
   /* ===== Products ===== */
@@ -233,6 +293,7 @@ function render() {
 
       const product = document.createElement("div");
       product.className = `product ${isSoldOut ? "product--soldout" : ""}`;
+      product.dataset.productId = p.id;
 
       product.innerHTML = `
         <div class="product-name">${p.name}</div>
@@ -242,18 +303,25 @@ function render() {
           <span class="stat stat-remaining">在庫:${remaining}</span>
         </div>
         <div class="counter">
-          <button type="button" class="counter-button minus" ${
+          <button class="counter-button minus" ${
             sold === 0 ? "disabled" : ""
           }></button>
-          <button type="button" class="counter-button plus" ${
+          <button class="counter-button plus" ${
             isSoldOut ? "disabled" : ""
           }></button>
           ${isSoldOut ? `<span class="soldout-label">売り切れ</span>` : ""}
         </div>
       `;
 
-      product.querySelector(".minus").onclick = () => decrement(p);
-      product.querySelector(".plus").onclick = () => increment(p);
+      product.querySelector(".minus").onclick = (e) => {
+        e.preventDefault();
+        decrement(p);
+      };
+
+      product.querySelector(".plus").onclick = (e) => {
+        e.preventDefault();
+        increment(p);
+      };
 
       section.appendChild(product);
     });
@@ -263,6 +331,10 @@ function render() {
 
   root.appendChild(productsRoot);
 }
+
+/* =====================
+   Utils
+===================== */
 
 function groupByCategory(products) {
   return products.reduce((acc, p) => {
