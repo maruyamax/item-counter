@@ -109,7 +109,6 @@ body {
 
 .category {
   display: grid;
-  overflow: hidden;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   border-radius: 8px;
   background-color: #fff;
