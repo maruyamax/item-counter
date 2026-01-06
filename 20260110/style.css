@@ -23,9 +23,8 @@ body {
 body {
   touch-action: manipulation;
   color: var(--txt-main);
-  body {
-    font-family: sans-serif;
-  }
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans", sans-serif;
 }
 
 #app {
