@@ -21,6 +21,7 @@ body {
 }
 
 body {
+  overflow: hidden;
   touch-action: manipulation;
   color: var(--txt-main);
   font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
