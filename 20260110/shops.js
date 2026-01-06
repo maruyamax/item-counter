@@ -49,13 +49,6 @@ export const SHOPS = [
         id: "maru_sticker01",
         category: "シール",
         name: "猫",
-        stock: 200,
-        price: 200,
-      },
-      {
-        id: "maru_sticker01",
-        category: "シール",
-        name: "猫",
         stock: 100,
         price: 200,
       },

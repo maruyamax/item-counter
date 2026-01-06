@@ -297,6 +297,7 @@ function render() {
 
       product.innerHTML = `
         <div class="product-name">${p.name}</div>
+        <div class="product-price">¥${p.price}</div>
         <div class="product-stats">
           <span class="stat stat-stock">用意:${p.stock}</span>
           <span class="stat stat-sold">売:${sold}</span>
