@@ -20,6 +20,7 @@ body {
 }
 
 body {
+  touch-action: manipulation;
   color: var(--txt-main);
   font-family: sans-serif;
 }
