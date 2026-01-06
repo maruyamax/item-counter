@@ -242,10 +242,10 @@ function render() {
           <span class="stat stat-remaining">在庫:${remaining}</span>
         </div>
         <div class="counter">
-          <button class="counter-button minus" ${
+          <button type="button" class="counter-button minus" ${
             sold === 0 ? "disabled" : ""
           }></button>
-          <button class="counter-button plus" ${
+          <button type="button" class="counter-button plus" ${
             isSoldOut ? "disabled" : ""
           }></button>
           ${isSoldOut ? `<span class="soldout-label">売り切れ</span>` : ""}
