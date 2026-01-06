@@ -1,5 +1,12 @@
 const CACHE_NAME = "event-counter-v1";
-const ASSETS = ["./", "./index.html", "./app.js", "./manifest.json"];
+const ASSETS = [
+  "./",
+  "./index.html",
+  "./style.css",
+  "./app.js",
+  "./shops.js",
+  "./manifest.json",
+];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS)));
