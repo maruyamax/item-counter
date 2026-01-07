@@ -133,7 +133,7 @@ function updateProduct(product) {
   if (soldOut && !label) {
     el.querySelector(".counter").insertAdjacentHTML(
       "beforeend",
-      `<span class="soldout-label">売り切れ</span>`
+      `<span class="soldout-label">売切</span>`
     );
   }
   if (!soldOut && label) label.remove();
@@ -148,7 +148,7 @@ function updateRevenue() {
 
   const total = document.querySelector(".revenue-total");
   if (total) {
-    total.textContent = `合計: ${masked(totalRevenue())}`;
+    total.textContent = `計: ${masked(totalRevenue())}`;
   }
 }
 
@@ -257,7 +257,7 @@ function render() {
 
   const total = document.createElement("div");
   total.className = "revenue-total";
-  total.textContent = `合計: ${masked(totalRevenue())}`;
+  total.textContent = `計: ${masked(totalRevenue())}`;
   revenue.appendChild(total);
 
   controls.appendChild(revenue);
@@ -310,7 +310,7 @@ function render() {
           <button class="counter-button plus" ${
             isSoldOut ? "disabled" : ""
           }></button>
-          ${isSoldOut ? `<span class="soldout-label">売り切れ</span>` : ""}
+          ${isSoldOut ? `<span class="soldout-label">売切</span>` : ""}
         </div>
       `;
 
