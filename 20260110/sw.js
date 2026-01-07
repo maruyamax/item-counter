@@ -1,4 +1,4 @@
-const CACHE_NAME = "event-counter-v12";
+const CACHE_NAME = "event-counter-v13";
 const ASSETS = [
   "./",
   "./index.html",
