@@ -166,6 +166,26 @@ body {
   border-top: 1px solid var(--bdr-light);
 }
 
+.is-decrement {
+  .counter-button.minus {
+    animation: btn-push 0.3s ease-out;
+  }
+}
+.is-increment {
+  .counter-button.plus {
+    animation: btn-push 0.3s ease-out;
+  }
+}
+@keyframes btn-push {
+  from {
+    box-shadow: 6px 6px 12px var(--shadow-btn), -6px -6px 12px #fff;
+  }
+  to {
+    border: 0;
+    box-shadow: inset 4px 4px 12px var(--shadow-btn), inset -4px -4px 12px #fff;
+  }
+}
+
 .product-name {
   display: grid;
   align-items: flex-end;
@@ -207,6 +227,7 @@ body {
 }
 
 .counter-button {
+  cursor: pointer;
   width: 64px;
   border-radius: 8px;
   box-shadow: 6px 6px 12px var(--shadow-btn), -6px -6px 12px #fff;
@@ -215,20 +236,11 @@ body {
   color: var(--txt-main);
   transition: all 0.3s;
 
-  &:active {
-    color: var(--txt-sub);
-    box-shadow: inset 4px 4px 12px var(--shadow-btn), inset -4px -4px 12px #fff;
-  }
-
   &.minus {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%23c10000"><path d="M240-460v-40h480v40H240Z"/></svg>');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 40px;
-
-    &:active {
-      background-color: rgba(193, 0, 0, 0.2);
-    }
   }
 
   &.plus {
@@ -237,17 +249,14 @@ body {
     background-position: center center;
     background-size: 40px;
 
-    &:active {
-      background-color: rgba(0, 167, 0, 0.2);
-    }
-
     &[disabled] {
+      opacity: 0;
       visibility: hidden;
     }
   }
 }
 
-.product.is-increment {
+/* .product.is-increment {
   animation: flash-plus 0.2s ease;
 }
 
@@ -257,7 +266,6 @@ body {
 
 @keyframes flash-plus {
   from {
-    /* background: rgba(0, 180, 100, 0.25); */
     background-color: rgba(0, 167, 0, 0.2);
   }
   to {
@@ -267,13 +275,12 @@ body {
 
 @keyframes flash-minus {
   from {
-    /* background: rgba(200, 0, 0, 0.25); */
     background-color: rgba(193, 0, 0, 0.2);
   }
   to {
     background: transparent;
   }
-}
+} */
 
 .stat-sold.is-bump {
   animation: bump 0.2s ease;
