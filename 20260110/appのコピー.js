@@ -153,24 +153,6 @@ function updateRevenue() {
 }
 
 /* =====================
-   Feedback
-===================== */
-function feedback(productEl, type) {
-  productEl.classList.remove("is-increment", "is-decrement");
-  void productEl.offsetWidth; // reflow
-  productEl.classList.add(type === "plus" ? "is-increment" : "is-decrement");
-
-  const soldEl = productEl.querySelector(".stat-sold");
-  soldEl.classList.remove("is-bump");
-  void soldEl.offsetWidth;
-  soldEl.classList.add("is-bump");
-
-  if (navigator.vibrate) {
-    navigator.vibrate(10);
-  }
-}
-
-/* =====================
    JSON Backup
 ===================== */
 
@@ -332,26 +314,14 @@ function render() {
         </div>
       `;
 
-      // product.querySelector(".minus").onclick = (e) => {
-      //   e.preventDefault();
-      //   decrement(p);
-      // };
-
-      // product.querySelector(".plus").onclick = (e) => {
-      //   e.preventDefault();
-      //   increment(p);
-      // };
-
-      const productEl = product;
-
-      product.querySelector(".minus").onclick = () => {
+      product.querySelector(".minus").onclick = (e) => {
+        e.preventDefault();
         decrement(p);
-        feedback(productEl, "minus");
       };
 
-      product.querySelector(".plus").onclick = () => {
+      product.querySelector(".plus").onclick = (e) => {
+        e.preventDefault();
         increment(p);
-        feedback(productEl, "plus");
       };
 
       section.appendChild(product);
