@@ -168,16 +168,17 @@ body {
 
 .is-decrement {
   .counter-button.minus {
-    animation: btn-push 0.3s ease-out;
+    animation: btn-push 0.2s ease-out;
   }
 }
 .is-increment {
   .counter-button.plus {
-    animation: btn-push 0.3s ease-out;
+    animation: btn-push 0.2s ease-out;
   }
 }
 @keyframes btn-push {
   from {
+    border: 0;
     box-shadow: 6px 6px 12px var(--shadow-btn), -6px -6px 12px #fff;
   }
   to {
@@ -227,6 +228,7 @@ body {
 }
 
 .counter-button {
+  -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   width: 64px;
   border-radius: 8px;
@@ -234,7 +236,7 @@ body {
   border: 1px solid var(--bdr-btn);
   background: var(--bg-light);
   color: var(--txt-main);
-  transition: all 0.3s;
+  transition: all 0.2s;
 
   &.minus {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%23c10000"><path d="M240-460v-40h480v40H240Z"/></svg>');
